@@ -6,4 +6,8 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Mass-Spring-Library\Mass-Spring-Library\Mass-Spring-Library.csproj" />
+  </ItemGroup>
+
 </Project>
