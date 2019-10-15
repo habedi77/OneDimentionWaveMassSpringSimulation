@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneDimentionWaveMassSpringSimulation", "OneDimentionWaveMassSpringSimulation\OneDimentionWaveMassSpringSimulation.csproj", "{B248AF02-B297-4EA0-B720-E0105B73F857}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B248AF02-B297-4EA0-B720-E0105B73F857}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B248AF02-B297-4EA0-B720-E0105B73F857}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B248AF02-B297-4EA0-B720-E0105B73F857}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B248AF02-B297-4EA0-B720-E0105B73F857}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6FA305C-EA69-481B-8404-8282AF2CA16C}
+	EndGlobalSection
+EndGlobal
