@@ -1,6 +1,6 @@
 ﻿namespace OneDimentionWaveMassSpringSimulation.Engine.Engine
 {
-    using System;
+	using System;
 	using System.Drawing;
 	using System.Numerics;
 	using MassSpringLibrary;
@@ -32,7 +32,13 @@
 			core = new Core(masses, springs);
 		}
 
-		public void Draw(Graphics graphics, Color massColor, Color springColor, float massRad = 15, float springWidth = 5)
+		public void Draw(Graphics graphics,
+			Color massColor,
+			Color springColor,
+			float massRad = 15,
+			float springWidth = 5,
+			float offsetX = 0,
+			float offsetY = 0)
 		{
 
 			using Pen springPen = new Pen(springColor, springWidth);
@@ -40,10 +46,10 @@
 			for (int i = 0; i < size - 1; i++)
 			{
 				graphics.DrawLine(springPen,
-					x1: masses[i].Position.X,
-					y1: masses[i].Position.Y,
-					x2: masses[i + 1].Position.X,
-					y2: masses[i + 1].Position.Y);
+					x1: masses[i].Position.X + offsetX,
+					y1: masses[i].Position.Y + offsetY,
+					x2: masses[i + 1].Position.X + offsetX,
+					y2: masses[i + 1].Position.Y + offsetY);
 			}
 
 			using Brush massBrush = new SolidBrush(massColor);
@@ -51,8 +57,8 @@
 			{
 				graphics.FillEllipse(
 					massBrush,
-					x: masses[i].Position.X - massRad,
-					y: masses[i].Position.Y - massRad,
+					x: masses[i].Position.X - massRad + offsetX,
+					y: masses[i].Position.Y - massRad + offsetY,
 					width: massRad * 2,
 					height: massRad * 2);
 			}
@@ -75,14 +81,23 @@
 
 			for (int i = 0; i < len; i++)
 			{
-				var pos = masses[i].Position;
-				pos.Y = (float)Math.Sin(i * Math.PI / len);
+				//var pos = masses[i].Position;
+				//pos.Y = (float)Math.Sin(i * Math.PI / len)*20;
+				masses[i].Position = new Vector3(
+					masses[i].Position.X,
+					(float)Math.Sin(i * Math.PI / len) * 40,
+				masses[i].Position.Z);
 			}
 		}
 		// todo return Masses for external drawing methods
 		public Mass[] GetMasses()
 		{
 			return masses;
+		}
+
+		public void tick(float dt)
+		{
+			core.Tick(dt);
 		}
 	}
 }
