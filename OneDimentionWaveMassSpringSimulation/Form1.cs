@@ -3,56 +3,70 @@
 	using System;
 	using System.Drawing;
 	using System.Threading;
-	using System.Windows.Forms;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
 	using OneDimentionWaveMassSpringSimulation.Engine.Engine;
 
 	public partial class PrimaryForm : Form
 	{
-
 		private Interface i;
 		private Thread thread;
+		private Graphics graphics;
+		private bool end;
 
 		public PrimaryForm()
 		{
 			InitializeComponent();
+			this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
+			graphics = CreateGraphics();
+			end = false;
 		}
 
 		private void button1Click(object sender, EventArgs e)
 		{
 			if (thread != null)
 			{
-				thread.Abort();
+				end = true;
+				thread.Join();
+				end = false;
 			}
 
 			thread = new Thread(new ParameterizedThreadStart(ticktock));
 
 
 			i = new Interface();
-			i.CreateUniformRope(100, 9, -100, 200f);
-			i.SetEnds(true, true);
+			i.CreateUniformRope(80, 5, 1000, 100f);
+			i.SetEnds(false, true);
 			i.AddWave();
 
 
-			thread.Start(0.001f);
+			thread.Start(0.01f);
 		}
 
-		private void ticktock(Object param)
+		private void PrimaryFormFormClosing(object sender, FormClosingEventArgs e)
+		{
+			end = true;
+			thread.Join();
+			System.Console.WriteLine("Thrad done: " + thread);
+			graphics.Dispose();
+		}
+
+		private async void ticktock(Object param)
 		{
 			float dt = (float)param;
-			while (true)
+			while (!end)
 			{
-				i.tick(dt);
-				var gp = CreateGraphics();
-				gp.FillRectangle(new SolidBrush(Color.White), 0, 0, 1000, 1000);
-				i.Draw(gp,
+				i.Tick(dt);
+
+				graphics.FillRectangle(new SolidBrush(Color.White), 0, 0, 600, 300);
+				i.Draw(graphics,
 					Color.DarkGoldenrod,
 					Color.DarkRed,
-					massRad: 2,
-					springWidth: 1,
+					massRad: 0,
+					springWidth: 2,
 					offsetX: 5,
 					offsetY: 100);
-				gp.Dispose();
-				Thread.Sleep((int)(dt * 1000));
+				//await Task.Delay((int)(5));
 			}
 		}
 	}

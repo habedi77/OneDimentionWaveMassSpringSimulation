@@ -95,7 +95,7 @@
 			return masses;
 		}
 
-		public void tick(float dt)
+		public void Tick(float dt)
 		{
 			core.Tick(dt);
 		}
