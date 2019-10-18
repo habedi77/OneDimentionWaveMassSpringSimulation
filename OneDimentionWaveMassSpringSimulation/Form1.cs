@@ -3,8 +3,8 @@
 	using System;
 	using System.Drawing;
 	using System.Threading;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
 	using OneDimentionWaveMassSpringSimulation.Engine.Engine;
 
 	public partial class PrimaryForm : Form
@@ -13,6 +13,9 @@
 		private Thread thread;
 		private Graphics graphics;
 		private bool end;
+		private Brush backgroundBrush;
+		private BufferedGraphicsContext myContext;
+		private BufferedGraphics myBuffer;
 
 		public PrimaryForm()
 		{
@@ -20,6 +23,10 @@
 			this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
 			graphics = CreateGraphics();
 			end = false;
+
+			backgroundBrush = new SolidBrush(Color.LightGray);
+
+			myContext = BufferedGraphicsManager.Current;
 		}
 
 		private void button1Click(object sender, EventArgs e)
@@ -31,12 +38,12 @@
 				end = false;
 			}
 
-			thread = new Thread(new ParameterizedThreadStart(ticktock));
+			thread = new Thread(new ParameterizedThreadStart(Ticktock));
 
 
 			i = new Interface();
 			i.CreateUniformRope(80, 5, 1000, 100f);
-			i.SetEnds(false, true);
+			i.SetHardEnds(true, false);
 			i.AddWave();
 
 
@@ -51,22 +58,24 @@
 			graphics.Dispose();
 		}
 
-		private async void ticktock(Object param)
+		private async void Ticktock(Object param)
 		{
 			float dt = (float)param;
 			while (!end)
 			{
 				i.Tick(dt);
+				myBuffer = myContext.Allocate(this.CreateGraphics(),this.DisplayRectangle);
 
-				graphics.FillRectangle(new SolidBrush(Color.White), 0, 0, 600, 300);
-				i.Draw(graphics,
+				myBuffer.Graphics.FillRectangle(backgroundBrush, 0, 0, 1000, 1000);
+				i.Draw(myBuffer.Graphics,
 					Color.DarkGoldenrod,
 					Color.DarkRed,
-					massRad: 0,
+					massRad: 2,
 					springWidth: 2,
 					offsetX: 5,
 					offsetY: 100);
-				//await Task.Delay((int)(5));
+				myBuffer.Render();
+				await Task.Delay((int)(dt*900)).ConfigureAwait(false);
 			}
 		}
 	}

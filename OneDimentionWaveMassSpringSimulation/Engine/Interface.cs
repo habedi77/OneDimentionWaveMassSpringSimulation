@@ -67,10 +67,10 @@
 		// todo CreateUniformRope(int size)
 		// todo CreateRope(float[] massArray)
 		// todo CreateRope(string expression)?
-		public void SetEnds(bool isLefSoft, bool isRightSoft)
+		public void SetHardEnds(bool isLefHard, bool isRightHard)
 		{
-			masses[0].AxisYLock = isLefSoft;
-			masses[size - 1].AxisYLock = isRightSoft;
+			masses[0].AxisYLock = isLefHard;
+			masses[size - 1].AxisYLock = isRightHard;
 		}
 
 		// todo AddWave() ????
@@ -85,7 +85,7 @@
 				//pos.Y = (float)Math.Sin(i * Math.PI / len)*20;
 				masses[i].Position = new Vector3(
 					masses[i].Position.X,
-					(float)Math.Sin(i * Math.PI / len) * 40,
+					(float)Math.Sin(i * Math.PI / len) * 60,
 				masses[i].Position.Z);
 			}
 		}

@@ -15,7 +15,10 @@
 		{
 			if (disposing && (components != null))
 			{
+				graphics.Dispose();
+				backgroundBrush.Dispose();
 				components.Dispose();
+				myBuffer.Dispose();
 			}
 			base.Dispose(disposing);
 		}

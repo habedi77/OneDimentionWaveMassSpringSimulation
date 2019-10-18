@@ -1,8 +1,7 @@
 ﻿namespace OneDimentionWaveMassSpringSimulation.Engine
 {
 	using System;
-	using System.Collections.Generic;
-	using System.Text;
+	using System.Numerics;
 	using MassSpringLibrary;
 
 	public class Core
@@ -24,12 +23,12 @@
 		{
 			foreach (var s in Springs)
 			{
-				s.Update();
+				s.AddForcesToMasses();
 			}
 
 			foreach (var m in Masses)
 			{
-				m.UpdateAcceleration();
+				m.UpdateAcceleration(resetForce:true);
 				m.UpdateSpeed(dt);
 				m.UpdatePostion(dt);
 			}
